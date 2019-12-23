@@ -12,7 +12,7 @@ Shelldown currently supports outputting html, markdown and to the terminal with 
 SD_LANG=html src/code -l sh 'echo "Hello World"'
 ```
 
-```
+```html
 <pre><code class="language-sh">echo &quot;Hello World&quot;</code></pre>
 ```
 
@@ -22,7 +22,7 @@ SD_LANG=html src/code -l sh 'echo "Hello World"'
 SD_LANG=html src/header 'Header'
 ```
 
-```
+```html
 <h1>Header</h1>
 ```
 
@@ -31,7 +31,7 @@ SD_LANG=html src/header 'Header'
 SD_LANG=html src/header -l 4 'Header'
 ```
 
-```
+```html
 <h4>Header</h4>
 ```
 
@@ -41,7 +41,7 @@ SD_LANG=html src/header -l 4 'Header'
 SD_LANG=html src/hr
 ```
 
-```
+```html
 <hr/>
 ```
 
@@ -51,7 +51,7 @@ SD_LANG=html src/hr
 SD_LANG=html src/paragraph 'Some ' -i 'text' ' ' -b 'and' ' ' -c 'code'
 ```
 
-```
+```html
 <p>Some <em>text</em> <strong>and</strong> <code>code</code></p>
 ```
 
