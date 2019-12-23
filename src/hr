@@ -1,0 +1,30 @@
+#!/bin/sh
+
+PROGRAM="$(basename "$0")"
+usage() {
+    echo "Usage: $(basename "$PROGRAM")"
+    exit "$1"
+}
+
+LEVEL='1'
+while getopts 'h' OPT; do
+    case "$OPT" in
+        h) usage 0 ;;
+        *) usage 1 ;;
+    esac
+done
+shift $((OPTIND-1))
+
+[ -z "$SD_LANG" ] && SD_LANG="term"
+case "$SD_LANG" in
+    html)
+        echo '<hr/>'
+        ;;
+    md)
+        echo '---'
+        ;;
+    term)
+        yes '-' | head -n "$(tput cols)" | tr -d '\n'
+        echo
+        ;;
+esac

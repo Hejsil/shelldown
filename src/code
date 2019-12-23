@@ -1,0 +1,46 @@
+#!/bin/sh
+
+PROGRAM="$(basename "$0")"
+usage() {
+    echo "Usage: $(basename "$PROGRAM") [ -l LANG ]"
+    exit "$1"
+}
+
+LANG=''
+while getopts 'l:h' OPT; do
+    case "$OPT" in
+        l) LANG="$OPTARG" ;;
+        h) usage 0 ;;
+        *) usage 1 ;;
+    esac
+done
+shift $((OPTIND-1))
+
+htmlescape() {
+    sed -e 's/&/\&amp;/g' \
+        -e 's/</\&lt;/g' \
+        -e 's/>/\&gt;/g' \
+        -e 's/"/\&quot;/g' \
+        -e "s/'/\&#39;/g"
+}
+
+[ -z "$SD_LANG" ] && SD_LANG='term'
+case "$SD_LANG" in
+    html)
+        printf '<pre><code'
+        [ -z "$LANG" ] || {
+            printf ' class="language-'
+            printf '%s' "$LANG" | htmlescape
+            printf '"'
+        }
+        printf '>'
+        printf '%s' "$*" | htmlescape
+        echo '</code></pre>'
+        ;;
+    md)
+        printf '```%s\n%s\n```\n' "$LANG" "$*"
+        ;;
+    term)
+        echo "$*"
+        ;;
+esac

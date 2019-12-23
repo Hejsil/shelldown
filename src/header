@@ -1,0 +1,44 @@
+#!/bin/sh
+
+PROGRAM="$(basename "$0")"
+usage() {
+    echo "Usage: $(basename "$PROGRAM") [ -l LEVEL ]"
+    exit "$1"
+}
+
+LEVEL="1"
+while getopts 'l:h' OPT; do
+    case "$OPT" in
+        l) LEVEL="$OPTARG" ;;
+        h) usage 0 ;;
+        *) usage 1 ;;
+    esac
+done
+shift $((OPTIND-1))
+
+htmlescape() {
+    sed -e 's/&/\&amp;/g' \
+        -e 's/</\&lt;/g' \
+        -e 's/>/\&gt;/g' \
+        -e 's/"/\&quot;/g' \
+        -e "s/'/\&#39;/g"
+}
+
+[ -z "$SD_LANG" ] && SD_LANG='term'
+case "$SD_LANG" in
+    html)
+        printf '<h%s>' "$LEVEL"
+        printf '%s' "$*" | htmlescape
+        echo "</h$LEVEL>"
+        ;;
+    md)
+        yes '#' | head -n "$LEVEL" | tr -d '\n'
+        echo " $@"
+        echo
+        ;;
+    term)
+        ESC="$(printf '\x1b')"
+        echo "$ESC[1m$@$ESC[0m"
+        echo
+        ;;
+esac
