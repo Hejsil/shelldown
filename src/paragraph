@@ -43,7 +43,6 @@ case "$SD_LANG" in
             *)
                 printf '%s' "$1" | htmlescape
                 shift 1
-                test "$#" -gt 0 && printf ' '
                 ;;
             esac
         done
@@ -67,7 +66,6 @@ case "$SD_LANG" in
             *)
                 printf '%s' "$1"
                 shift 1
-                test "$#" -gt 0 && printf ' '
                 ;;
             esac
         done
@@ -93,7 +91,6 @@ case "$SD_LANG" in
             *)
                 printf '%s' "$1"
                 shift 1
-                test "$#" -gt 0 && printf ' '
                 ;;
             esac
         done
