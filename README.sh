@@ -16,7 +16,7 @@ src/header -l 2 'Examples'
 
 example() {
     CODE="$1"
-    src/code -l sh "$CODE"
+    src/code -l bash "$CODE"
     src/code "$(eval "$CODE")"
 }
 
