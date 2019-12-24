@@ -62,7 +62,6 @@ SD_LANG=html src/format 'text' | SD_LANG=html src/paragraph
 ```
 
 ```html
-<p>text
-</p>
+<p>text</p>
 ```
 
