@@ -1,0 +1,94 @@
+#!/bin/sh
+
+PROGRAM="$(basename "$0")"
+usage() {
+    echo "Usage: $(basename "$PROGRAM") [ -h ] [ -bci TEXT | TEXT ]..."
+    exit "$1"
+}
+
+[ "$1" = '-h' ] && usage 0
+
+htmlescape() {
+    sed -e 's/&/\&amp;/g' \
+        -e 's/</\&lt;/g' \
+        -e 's/>/\&gt;/g' \
+        -e 's/"/\&quot;/g' \
+        -e "s/'/\&#39;/g"
+}
+
+[ -z "$SD_LANG" ] && SD_LANG='term'
+case "$SD_LANG" in
+    html)
+        while test "$#" -gt 0; do
+            case "$1" in
+            '-b')
+                printf '<strong>'
+                printf '%s' "$2" | htmlescape
+                printf '</strong>'
+                shift 2
+                ;;
+            '-c')
+                printf '<code>'
+                printf '%s' "$2" | htmlescape
+                printf '</code>'
+                shift 2
+                ;;
+            '-i')
+                printf '<em>'
+                printf '%s' "$2" | htmlescape
+                printf '</em>'
+                shift 2
+                ;;
+            *)
+                printf '%s' "$1" | htmlescape
+                shift 1
+                ;;
+            esac
+        done
+        ;;
+    md)
+        while test "$#" -gt 0; do
+            case "$1" in
+            '-b')
+                printf '**%s**' "$2"
+                shift 2
+                ;;
+            '-c')
+                printf '`%s`' "$2"
+                shift 2
+                ;;
+            '-b')
+                printf '*%s*' "$2"
+                shift 2
+                ;;
+            *)
+                printf '%s' "$1"
+                shift 1
+                ;;
+            esac
+        done
+        ;;
+    term)
+        ESC="$(printf '\x1b')"
+        while test "$#" -gt 0; do
+            case "$1" in
+            '-b')
+                printf '%s%s%s' "$ESC[1m" "$2" "$ESC[0m"
+                shift 2
+                ;;
+            '-c')
+                printf '%s' "$2"
+                shift 2
+                ;;
+            '-i')
+                printf '%s%s%s' "$ESC[4m" "$2" "$ESC[0m"
+                shift 2
+                ;;
+            *)
+                printf '%s' "$1"
+                shift 1
+                ;;
+            esac
+        done
+        ;;
+esac

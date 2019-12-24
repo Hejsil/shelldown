@@ -2,98 +2,49 @@
 
 PROGRAM="$(basename "$0")"
 usage() {
-    echo "Usage: $(basename "$PROGRAM") [ -h ] [ -bci TEXT | TEXT ]..."
+    echo "Usage: $(basename "$PROGRAM") [ TEXT ]..."
+    echo 'Prints formatted input as a paragraph in SD_LANG.'
+    echo 'If no text is passed as an argument, then the text'
+    echo 'is read from stdin.'
+    echo 'A paragraph is a container. This means, that it should take'
+    echo 'the output of one of the other shelldown commands, and'
+    echo 'not text directly, as it will not escape this text'
+    echo 'correctly for some output languages.'
+    echo 'Do: format "Header" | paragraph'
+    echo 'Dont: echo "Header" | paragraph'
     exit "$1"
 }
 
-[ "$1" = '-h' ] && usage 0
+while getopts 'h' OPT; do
+    case "$OPT" in
+        h) usage 0 ;;
+        *) usage 1 ;;
+    esac
+done
+shift $((OPTIND-1))
 
-htmlescape() {
-    sed -e 's/&/\&amp;/g' \
-        -e 's/</\&lt;/g' \
-        -e 's/>/\&gt;/g' \
-        -e 's/"/\&quot;/g' \
-        -e "s/'/\&#39;/g"
+TEXT="$*"
+text_string() {
+    # Use awk to append missing newline at the endP
+    # of our input
+    [ -z "$TEXT" ] && cat - | awk '{print}'
+    [ -z "$TEXT" ] || echo "$TEXT"
 }
+
 
 [ -z "$SD_LANG" ] && SD_LANG='term'
 case "$SD_LANG" in
     html)
         printf '<p>'
-        while test "$#" -gt 0; do
-            case "$1" in
-            '-b')
-                printf '<strong>'
-                printf '%s' "$2" | htmlescape
-                printf '</strong>'
-                shift 2
-                ;;
-            '-c')
-                printf '<code>'
-                printf '%s' "$2" | htmlescape
-                printf '</code>'
-                shift 2
-                ;;
-            '-i')
-                printf '<em>'
-                printf '%s' "$2" | htmlescape
-                printf '</em>'
-                shift 2
-                ;;
-            *)
-                printf '%s' "$1" | htmlescape
-                shift 1
-                ;;
-            esac
-        done
+        text_string
         echo '</p>'
         ;;
     md)
-        while test "$#" -gt 0; do
-            case "$1" in
-            '-b')
-                printf '**%s**' "$2"
-                shift 2
-                ;;
-            '-c')
-                printf '`%s`' "$2"
-                shift 2
-                ;;
-            '-b')
-                printf '*%s*' "$2"
-                shift 2
-                ;;
-            *)
-                printf '%s' "$1"
-                shift 1
-                ;;
-            esac
-        done
-        echo
+        text_string
         echo
         ;;
     term)
-        ESC="$(printf '\x1b')"
-        while test "$#" -gt 0; do
-            case "$1" in
-            '-b')
-                printf '%s%s%s' "$ESC[1m" "$2" "$ESC[0m"
-                shift 2
-                ;;
-            '-c')
-                printf '%s' "$2"
-                shift 2
-                ;;
-            '-i')
-                printf '%s%s%s' "$ESC[4m" "$2" "$ESC[0m"
-                shift 2
-                ;;
-            *)
-                printf '%s' "$1"
-                shift 1
-                ;;
-            esac
-        done
+        text_string
         echo
         ;;
 esac

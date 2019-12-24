@@ -51,9 +51,9 @@ case "$SD_LANG" in
         echo '</code></pre>'
         ;;
     md)
-        printf '```%s\n'
+        printf '```%s\n' "$LANG"
         code_string
-        printf '```\n\n' "$LANG" "$*"
+        printf '```\n\n'
         ;;
     term)
         code_string

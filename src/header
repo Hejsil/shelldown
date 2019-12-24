@@ -2,7 +2,18 @@
 
 PROGRAM="$(basename "$0")"
 usage() {
-    echo "Usage: $(basename "$PROGRAM") [ -l LEVEL ]"
+    echo "Usage: $(basename "$PROGRAM") [ -l LEVEL ] [ HEADER ]..."
+    echo 'Prints formatted input as a header in SD_LANG.'
+    echo 'If no header text is passed as an argument, then'
+    echo 'the header is read from stdin.'
+    echo 'A header is a container. This means, that it should take'
+    echo 'the output of one of the other shelldown commands, and'
+    echo 'not text directly, as it will not escape this text'
+    echo 'correctly for some output languages.'
+    echo 'Do: paragraph "Header" | header'
+    echo 'Dont: echo "Header" | header'
+    echo ''
+    echo '    -l    The level of the header (default 1)'
     exit "$1"
 }
 
@@ -16,29 +27,30 @@ while getopts 'l:h' OPT; do
 done
 shift $((OPTIND-1))
 
-htmlescape() {
-    sed -e 's/&/\&amp;/g' \
-        -e 's/</\&lt;/g' \
-        -e 's/>/\&gt;/g' \
-        -e 's/"/\&quot;/g' \
-        -e "s/'/\&#39;/g"
+HEADER="$*"
+header_string() {
+    # Use awk to append missing newline at the end
+    # of our input
+    [ -z "$HEADER" ] && cat - | awk '{print}'
+    [ -z "$HEADER" ] || echo "$HEADER"
 }
+
 
 [ -z "$SD_LANG" ] && SD_LANG='term'
 case "$SD_LANG" in
     html)
         printf '<h%s>' "$LEVEL"
-        printf '%s' "$*" | htmlescape
+        header_string
         echo "</h$LEVEL>"
         ;;
     md)
-        yes '#' | head -n "$LEVEL" | tr -d '\n'
-        echo " $@"
+        PREPEND="$(yes '#' | head -n "$LEVEL" | tr -d '\n')"
+        header_string | sed "s/^/$PREPEND /"
         echo
         ;;
     term)
         ESC="$(printf '\x1b')"
-        echo "$ESC[1m$@$ESC[0m"
+        header_string | sed -e "s/^/$ESC[1m/" -e "s/\$/$ESC[0m/"
         echo
         ;;
 esac

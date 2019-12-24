@@ -6,36 +6,49 @@ Shelldown currently supports outputting html, markdown and to the terminal with 
 
 ## Examples
 
-### code
+### `code`
 
 ```bash
 SD_LANG=html src/code -l sh 'echo "Hello World"'
 ```
 
 ```html
-<pre><code class="language-sh">echo &quot;Hello World&quot;</code></pre>
+<pre><code class="language-sh">echo &quot;Hello World&quot;
+</code></pre>
 ```
 
-### header
+### `format`
 
 ```bash
-SD_LANG=html src/header 'Header'
+SD_LANG=html src/format 'Some ' -i 'text' ' ' -b 'and' ' ' -c 'code'
 ```
 
 ```html
-<h1>Header</h1>
+Some <em>text</em> <strong>and</strong> <code>code</code>
+```
+
+### `header`
+
+```bash
+SD_LANG=html src/format 'Header' | SD_LANG=html src/header
+```
+
+```html
+<h1>Header
+</h1>
 ```
 
 ---
 ```bash
-SD_LANG=html src/header -l 4 'Header'
+SD_LANG=html src/format 'Header' | SD_LANG=html src/header -l 4
 ```
 
 ```html
-<h4>Header</h4>
+<h4>Header
+</h4>
 ```
 
-### hr
+### `hr`
 
 ```bash
 SD_LANG=html src/hr
@@ -45,13 +58,14 @@ SD_LANG=html src/hr
 <hr/>
 ```
 
-### paragraph
+### `paragraph`
 
 ```bash
-SD_LANG=html src/paragraph 'Some ' -i 'text' ' ' -b 'and' ' ' -c 'code'
+SD_LANG=html src/format 'text' | SD_LANG=html src/paragraph
 ```
 
 ```html
-<p>Some <em>text</em> <strong>and</strong> <code>code</code></p>
+<p>text
+</p>
 ```
 
