@@ -23,8 +23,6 @@ shift $((OPTIND-1))
 
 CODE="$*"
 code_string() {
-    # Use awk to append missing newline at the end
-    # of our input
     [ -z "$CODE" ] && cat -
     [ -z "$CODE" ] || printf '%s' "$CODE"
 }
@@ -51,9 +49,17 @@ case "$SD_LANG" in
         echo '</code></pre>'
         ;;
     md)
-        printf '```%s\n' "$LANG"
-        code_string | awk '1'
-        printf '```\n\n'
+        # To ensure we always have enough ticks to escape the
+        # code, we first count howmany ticks the code contains
+        # and the uses that count as the number of ticks in the
+        # markdown file"
+        CODE_STRING="$(code_string)"
+        TICK_COUNT="$(printf '%s```' "$CODE_STRING" | tr -cd '`' | wc -c)"
+        TICKS="$(yes '`' | head -n "$TICK_COUNT" | tr -d '\n')"
+        echo "$TICKS$LANG"
+        printf '%s' "$CODE_STRING" | awk '1'
+        echo "$TICKS"
+        echo
         ;;
     term)
         code_string | awk '1'
