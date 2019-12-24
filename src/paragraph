@@ -27,7 +27,7 @@ TEXT="$*"
 text_string() {
     # Use awk to append missing newline at the endP
     # of our input
-    [ -z "$TEXT" ] && cat - | awk '{print}'
+    [ -z "$TEXT" ] && cat - | awk '1'
     [ -z "$TEXT" ] || echo "$TEXT"
 }
 

@@ -13,8 +13,7 @@ SD_LANG=html src/code -l sh 'echo "Hello World"'
 ```
 
 ```html
-<pre><code class="language-sh">echo &quot;Hello World&quot;
-</code></pre>
+<pre><code class="language-sh">echo &quot;Hello World&quot;</code></pre>
 ```
 
 ### `format`

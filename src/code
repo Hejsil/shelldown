@@ -26,7 +26,7 @@ code_string() {
     # Use awk to append missing newline at the end
     # of our input
     [ -z "$CODE" ] && cat -
-    [ -z "$CODE" ] || echo "$CODE"
+    [ -z "$CODE" ] || printf '%s' "$CODE"
 }
 
 htmlescape() {
@@ -52,10 +52,10 @@ case "$SD_LANG" in
         ;;
     md)
         printf '```%s\n' "$LANG"
-        code_string | awk '{print}'
+        code_string | awk '1'
         printf '```\n\n'
         ;;
     term)
-        code_string | awk '{print}'
+        code_string | awk '1'
         ;;
 esac

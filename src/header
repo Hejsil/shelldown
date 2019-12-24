@@ -30,7 +30,7 @@ shift $((OPTIND-1))
 HEADER="$*"
 header_string() {
     [ -z "$HEADER" ] && cat -
-    [ -z "$HEADER" ] || echo "$HEADER"
+    [ -z "$HEADER" ] || printf '%s' "$HEADER"
 }
 
 
@@ -43,12 +43,12 @@ case "$SD_LANG" in
         ;;
     md)
         PREPEND="$(yes '#' | head -n "$LEVEL" | tr -d '\n')"
-        header_string | sed "s/^/$PREPEND /" | awk '{print}'
+        header_string | sed "s/^/$PREPEND /" | awk '1'
         echo
         ;;
     term)
         ESC="$(printf '\x1b')"
-        header_string | sed -e "s/^/$ESC[1m/" -e "s/\$/$ESC[0m/" | awk '{print}'
+        header_string | sed -e "s/^/$ESC[1m/" -e "s/\$/$ESC[0m/" | awk '1'
         echo
         ;;
 esac
