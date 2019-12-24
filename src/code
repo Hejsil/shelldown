@@ -2,7 +2,12 @@
 
 PROGRAM="$(basename "$0")"
 usage() {
-    echo "Usage: $(basename "$PROGRAM") [ -l LANG ]"
+    echo "Usage: $(basename "$PROGRAM") [ -l LANG ] [ CODE ]..."
+    echo 'Outputs a codeblock in SD_LANG. If no code was'
+    echo 'passed as arguments to this command, it will read'
+    echo 'the code from stdin.'
+    echo ''
+    echo '    -l    Specify the language the code is written in.'
     exit "$1"
 }
 
@@ -15,6 +20,14 @@ while getopts 'l:h' OPT; do
     esac
 done
 shift $((OPTIND-1))
+
+CODE="$*"
+code_string() {
+    # Use awk to append missing newline at the end
+    # of our input
+    [ -z "$CODE" ] && cat - | awk '{print}'
+    [ -z "$CODE" ] || echo "$CODE"
+}
 
 htmlescape() {
     sed -e 's/&/\&amp;/g' \
@@ -34,13 +47,15 @@ case "$SD_LANG" in
             printf '"'
         }
         printf '>'
-        printf '%s' "$*" | htmlescape
+        code_string | htmlescape
         echo '</code></pre>'
         ;;
     md)
-        printf '```%s\n%s\n```\n\n' "$LANG" "$*"
+        printf '```%s\n'
+        code_string
+        printf '```\n\n' "$LANG" "$*"
         ;;
     term)
-        echo "$*"
+        code_string
         ;;
 esac
