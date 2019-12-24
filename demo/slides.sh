@@ -3,21 +3,20 @@
 SD_LANG='term'
 
 clear
-src/header 'Slides with shelldown'
-src/paragraph 'press enter to continue...'
+src/format 'Slides with shelldown' | src/header
+src/format 'press enter to continue...' | src/paragraph
 
 read -s; clear
-src/header 'Slides with shelldown'
-src/paragraph \
-'Because Shelldown is just a shell script we can do' \
-'anything a shell script can:'
+src/format 'Slides with shelldown' | src/header
+src/format \
+'Because Shelldown is just a shell script we can do ' \
+'anything a shell script can:' | src/paragraph
 
-read -s; src/paragraph '* We can' -i 'wait' ' for input.'
-read -s; src/paragraph '* We can' -b 'clear' ' the terminal.'
+read -s; src/format '* We can ' -i 'wait' ' for input.' | src/paragraph
+read -s; src/format '* We can ' -b 'clear' ' the terminal.' | src/paragraph
 
 read -s; clear
-src/header 'Slides with shelldown'
-src/paragraph \
-'Hurray for shelldown'
+src/format 'Slides with shelldown' | src/header
+src/format 'Hurray for shelldown' | src/paragraph
 
 read -s; clear
