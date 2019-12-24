@@ -1,38 +1,40 @@
 #!/bin/sh
 
-src/format 'Shelldown' | src/header
+PATH="$(pwd)/src:$PATH"
 
-src/format \
+format 'Shelldown' | header
+
+format \
 'Shelldown is a set of scripts that make your shell into a markup ' \
 'language. In fact, this README was generated with Shelldown! ' \
-'See ' -c 'README.sh' '.' | src/paragraph
+'See ' -c 'README.sh' '.' | paragraph
 
-src/format \
+format \
 'Shelldown currently supports outputting html, markdown and to ' \
 'the terminal with ansi escapes. The output is determined by ' \
-'the ' -c 'SD_LANG' ' environment variable.' | src/paragraph
+'the ' -c 'SD_LANG' ' environment variable.' | paragraph
 
-src/format 'Examples' | src/header -l 2
+format 'Examples' | header -l 2
 
 example() {
     CODE="$1"
-    src/code -l bash "$CODE"
-    src/code -l html "$(eval "$CODE")"
+    code -l bash "$CODE"
+    code -l html "$(eval "$CODE")"
 }
 
-src/format -c 'code' | src/header -l 3
-example "SD_LANG=html src/code -l sh 'echo \"Hello World\"'"
+format -c 'code' | header -l 3
+example "SD_LANG=html code -l sh 'echo \"Hello World\"'"
 
-src/format -c 'format' | src/header -l 3
-example "SD_LANG=html src/format 'Some ' -i 'text' ' ' -b 'and' ' ' -c 'code'"
+format -c 'format' | header -l 3
+example "SD_LANG=html format 'Some ' -i 'text' ' ' -b 'and' ' ' -c 'code'"
 
-src/format -c 'header' | src/header -l 3
-example "SD_LANG=html src/format 'Header' | SD_LANG=html src/header"
-src/hr
-example "SD_LANG=html src/format 'Header' | SD_LANG=html src/header -l 4"
+format -c 'header' | header -l 3
+example "SD_LANG=html format 'Header' | SD_LANG=html header"
+hr
+example "SD_LANG=html format 'Header' | SD_LANG=html header -l 4"
 
-src/format -c 'hr' | src/header -l 3
-example "SD_LANG=html src/hr"
+format -c 'hr' | header -l 3
+example "SD_LANG=html hr"
 
-src/format -c 'paragraph' | src/header -l 3
-example "SD_LANG=html src/format 'text' | SD_LANG=html src/paragraph"
+format -c 'paragraph' | header -l 3
+example "SD_LANG=html format 'text' | SD_LANG=html paragraph"

@@ -1,22 +1,23 @@
 #!/bin/sh
 
+PATH="$(pwd)/src:$PATH"
 SD_LANG='term'
 
 clear
-src/format 'Slides with shelldown' | src/header
-src/format 'press enter to continue...' | src/paragraph
+format 'Slides with shelldown' | header
+format 'press enter to continue...' | paragraph
 
 read -s; clear
-src/format 'Slides with shelldown' | src/header
-src/format \
+format 'Slides with shelldown' | header
+format \
 'Because Shelldown is just a shell script we can do ' \
-'anything a shell script can:' | src/paragraph
+'anything a shell script can:' | paragraph
 
-read -s; src/format '* We can ' -i 'wait' ' for input.' | src/paragraph
-read -s; src/format '* We can ' -b 'clear' ' the terminal.' | src/paragraph
+read -s; format '* We can ' -i 'wait' ' for input.' | paragraph
+read -s; format '* We can ' -b 'clear' ' the terminal.' | paragraph
 
 read -s; clear
-src/format 'Slides with shelldown' | src/header
-src/format 'Hurray for shelldown' | src/paragraph
+format 'Slides with shelldown' | header
+format 'Hurray for shelldown' | paragraph
 
 read -s; clear
