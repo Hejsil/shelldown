@@ -25,7 +25,7 @@ CODE="$*"
 code_string() {
     # Use awk to append missing newline at the end
     # of our input
-    [ -z "$CODE" ] && cat - | awk '{print}'
+    [ -z "$CODE" ] && cat -
     [ -z "$CODE" ] || echo "$CODE"
 }
 
@@ -52,10 +52,10 @@ case "$SD_LANG" in
         ;;
     md)
         printf '```%s\n' "$LANG"
-        code_string
+        code_string | awk '{print}'
         printf '```\n\n'
         ;;
     term)
-        code_string
+        code_string | awk '{print}'
         ;;
 esac

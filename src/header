@@ -29,9 +29,7 @@ shift $((OPTIND-1))
 
 HEADER="$*"
 header_string() {
-    # Use awk to append missing newline at the end
-    # of our input
-    [ -z "$HEADER" ] && cat - | awk '{print}'
+    [ -z "$HEADER" ] && cat -
     [ -z "$HEADER" ] || echo "$HEADER"
 }
 
@@ -45,12 +43,12 @@ case "$SD_LANG" in
         ;;
     md)
         PREPEND="$(yes '#' | head -n "$LEVEL" | tr -d '\n')"
-        header_string | sed "s/^/$PREPEND /"
+        header_string | sed "s/^/$PREPEND /" | awk '{print}'
         echo
         ;;
     term)
         ESC="$(printf '\x1b')"
-        header_string | sed -e "s/^/$ESC[1m/" -e "s/\$/$ESC[0m/"
+        header_string | sed -e "s/^/$ESC[1m/" -e "s/\$/$ESC[0m/" | awk '{print}'
         echo
         ;;
 esac

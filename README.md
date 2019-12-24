@@ -34,8 +34,7 @@ SD_LANG=html src/format 'Header' | SD_LANG=html src/header
 ```
 
 ```html
-<h1>Header
-</h1>
+<h1>Header</h1>
 ```
 
 ---
@@ -44,8 +43,7 @@ SD_LANG=html src/format 'Header' | SD_LANG=html src/header -l 4
 ```
 
 ```html
-<h4>Header
-</h4>
+<h4>Header</h4>
 ```
 
 ### `hr`
