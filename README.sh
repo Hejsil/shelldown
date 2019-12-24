@@ -15,26 +15,28 @@ format \
 'the ' -c 'SD_LANG' ' environment variable.' | paragraph
 
 format 'Examples' | header -l 2
+format \
+'All examples have ' -c 'SD_LANG' ' set to ' -c 'html' | paragraph
 
 example() {
     CODE="$1"
     code -l bash "$CODE"
-    code -l html "$(eval "$CODE")"
+    code -l html "$(eval "(SD_LANG=html; $CODE;)")"
 }
 
 format -c 'code' | header -l 3
-example "SD_LANG=html code -l sh 'echo \"Hello World\"'"
+example "code -l sh 'echo \"Hello World\"'"
 
 format -c 'format' | header -l 3
-example "SD_LANG=html format 'Some ' -i 'text' ' ' -b 'and' ' ' -c 'code'"
+example "format 'Some ' -i 'text' ' ' -b 'and' ' ' -c 'code'"
 
 format -c 'header' | header -l 3
-example "SD_LANG=html format 'Header' | SD_LANG=html header"
+example "format 'Header' | header"
 hr
-example "SD_LANG=html format 'Header' | SD_LANG=html header -l 4"
+example "format 'Header' | header -l 4"
 
 format -c 'hr' | header -l 3
-example "SD_LANG=html hr"
+example "hr"
 
 format -c 'paragraph' | header -l 3
-example "SD_LANG=html format 'text' | SD_LANG=html paragraph"
+example "format 'text' | paragraph"

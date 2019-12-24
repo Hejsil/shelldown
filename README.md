@@ -6,10 +6,12 @@ Shelldown currently supports outputting html, markdown and to the terminal with 
 
 ## Examples
 
+All examples have `SD_LANG` set to `html`
+
 ### `code`
 
 ```bash
-SD_LANG=html code -l sh 'echo "Hello World"'
+code -l sh 'echo "Hello World"'
 ```
 
 ```html
@@ -19,7 +21,7 @@ SD_LANG=html code -l sh 'echo "Hello World"'
 ### `format`
 
 ```bash
-SD_LANG=html format 'Some ' -i 'text' ' ' -b 'and' ' ' -c 'code'
+format 'Some ' -i 'text' ' ' -b 'and' ' ' -c 'code'
 ```
 
 ```html
@@ -29,7 +31,7 @@ Some <em>text</em> <strong>and</strong> <code>code</code>
 ### `header`
 
 ```bash
-SD_LANG=html format 'Header' | SD_LANG=html header
+format 'Header' | header
 ```
 
 ```html
@@ -38,7 +40,7 @@ SD_LANG=html format 'Header' | SD_LANG=html header
 
 ---
 ```bash
-SD_LANG=html format 'Header' | SD_LANG=html header -l 4
+format 'Header' | header -l 4
 ```
 
 ```html
@@ -48,7 +50,7 @@ SD_LANG=html format 'Header' | SD_LANG=html header -l 4
 ### `hr`
 
 ```bash
-SD_LANG=html hr
+hr
 ```
 
 ```html
@@ -58,7 +60,7 @@ SD_LANG=html hr
 ### `paragraph`
 
 ```bash
-SD_LANG=html format 'text' | SD_LANG=html paragraph
+format 'text' | paragraph
 ```
 
 ```html
