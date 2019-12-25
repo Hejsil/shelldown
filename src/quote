@@ -1,0 +1,39 @@
+#!/bin/sh
+
+PROGRAM="$(basename "$0")"
+usage() {
+    echo "Usage: $(basename "$PROGRAM") [ TEXT ]..."
+    exit "$1"
+}
+
+while getopts 'h' OPT; do
+    case "$OPT" in
+        h) usage 0 ;;
+        *) usage 1 ;;
+    esac
+done
+shift $((OPTIND-1))
+
+TEXT="$*"
+text_string() {
+    [ -z "$TEXT" ] && cat -
+    [ -z "$TEXT" ] || printf '%s' "$TEXT"
+}
+
+
+[ -z "$SD_LANG" ] && SD_LANG='term'
+case "$SD_LANG" in
+    html)
+        printf '<blockquote>'
+        text_string
+        echo '</blockquote>'
+        ;;
+    md)
+        text_string | awk '{ print "> " $0; }'
+        echo
+        ;;
+    term)
+        text_string | awk '{ print "> " $0; }'
+        echo
+        ;;
+esac

@@ -40,3 +40,6 @@ example "hr"
 
 format -c 'paragraph' | header -l 3
 example "format 'text' | paragraph"
+
+format -c 'quote' | header -l 3
+example "format 'text' | quote"

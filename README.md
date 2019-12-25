@@ -67,3 +67,13 @@ format 'text' | paragraph
 <p>text</p>
 ```
 
+### `quote`
+
+```bash
+format 'text' | quote
+```
+
+```html
+<blockquote>text</blockquote>
+```
+
