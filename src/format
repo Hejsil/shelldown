@@ -21,22 +21,16 @@ case "$SD_LANG" in
     html)
         while test "$#" -gt 0; do
             case "$1" in
-            '-b')
-                printf '<strong>'
+            -*)
+                echo "$1" | grep -o '[bci]' | tr -d '\n' |
+                    sed -e 's#b#<strong>#g' \
+                        -e 's#c#<code>#g' \
+                        -e 's#i#<em>#g'
                 printf '%s' "$2" | htmlescape
-                printf '</strong>'
-                shift 2
-                ;;
-            '-c')
-                printf '<code>'
-                printf '%s' "$2" | htmlescape
-                printf '</code>'
-                shift 2
-                ;;
-            '-i')
-                printf '<em>'
-                printf '%s' "$2" | htmlescape
-                printf '</em>'
+                echo "$1" | grep -o '[bci]' | tr -d '\n' | rev |
+                    sed -e 's#b#</strong>#g' \
+                        -e 's#c#</code>#g' \
+                        -e 's#i#</em>#g'
                 shift 2
                 ;;
             *)
@@ -49,16 +43,16 @@ case "$SD_LANG" in
     md)
         while test "$#" -gt 0; do
             case "$1" in
-            '-b')
-                printf '**%s**' "$2"
-                shift 2
-                ;;
-            '-c')
-                printf '`%s`' "$2"
-                shift 2
-                ;;
-            '-b')
-                printf '*%s*' "$2"
+            -*)
+                echo "$1" | grep -o '[bci]' | tr -d '\n' |
+                    sed -e 's#b#**#g' \
+                        -e 's#c#`#g' \
+                        -e 's#i#*#g'
+                printf '%s' "$2"
+                echo "$1" | grep -o '[bci]' | tr -d '\n' | rev |
+                    sed -e 's#b#**#g' \
+                        -e 's#c#`#g' \
+                        -e 's#i#*#g'
                 shift 2
                 ;;
             *)
@@ -72,16 +66,16 @@ case "$SD_LANG" in
         ESC="$(printf '\x1b')"
         while test "$#" -gt 0; do
             case "$1" in
-            '-b')
-                printf '%s%s%s' "$ESC[1m" "$2" "$ESC[0m"
-                shift 2
-                ;;
-            '-c')
+            -*)
+                echo "$1" | grep -o '[bci]' | tr -d '\n' |
+                    sed -e "s#b#$ESC[1m#g" \
+                        -e "s#c##g" \
+                        -e "s#i#$ESC[4m#g"
                 printf '%s' "$2"
-                shift 2
-                ;;
-            '-i')
-                printf '%s%s%s' "$ESC[4m" "$2" "$ESC[0m"
+                echo "$1" | grep -o '[bci]' | tr -d '\n' | rev |
+                    sed -e "s#b#$ESC[0m#g" \
+                        -e "s#c##g" \
+                        -e "s#i#$ESC[0m#g"
                 shift 2
                 ;;
             *)
