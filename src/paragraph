@@ -3,6 +3,7 @@
 PROGRAM="$(basename "$0")"
 usage() {
     echo "Usage: $(basename "$PROGRAM") [ TEXT ]..."
+    echo ''
     echo 'Prints formatted input as a paragraph in SD_LANG.'
     echo 'If no text is passed as an argument, then the text'
     echo 'is read from stdin.'
@@ -10,6 +11,7 @@ usage() {
     echo 'the output of one of the other shelldown commands, and'
     echo 'not text directly, as it will not escape this text'
     echo 'correctly for some output languages.'
+    echo ''
     echo 'Do: format "Header" | paragraph'
     echo 'Dont: echo "Header" | paragraph'
     exit "$1"

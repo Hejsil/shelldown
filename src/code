@@ -3,10 +3,12 @@
 PROGRAM="$(basename "$0")"
 usage() {
     echo "Usage: $(basename "$PROGRAM") [ -l LANG ] [ CODE ]..."
+    echo ''
     echo 'Outputs a codeblock in SD_LANG. If no code was'
     echo 'passed as arguments to this command, it will read'
     echo 'the code from stdin.'
     echo ''
+    echo 'Options:'
     echo '    -l    Specify the language the code is written in.'
     exit "$1"
 }

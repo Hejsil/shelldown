@@ -3,6 +3,7 @@
 PROGRAM="$(basename "$0")"
 usage() {
     echo "Usage: $(basename "$PROGRAM") [ -l LEVEL ] [ HEADER ]..."
+    echo ''
     echo 'Prints formatted input as a header in SD_LANG.'
     echo 'If no header text is passed as an argument, then'
     echo 'the header is read from stdin.'
@@ -10,7 +11,8 @@ usage() {
     echo 'the output of one of the other shelldown commands, and'
     echo 'not text directly, as it will not escape this text'
     echo 'correctly for some output languages.'
-    echo 'Do: paragraph "Header" | header'
+    echo ''
+    echo 'Do: format "Header" | header'
     echo 'Dont: echo "Header" | header'
     echo ''
     echo '    -l    The level of the header (default 1)'
